@@ -458,6 +458,11 @@ static CGFloat const GBAutoScrollDefaultInterval = 3.0f;
 {
     [super layoutSubviews];
     
+    /* Resize current view to fit parent view */
+    CGRect myFrame = self.frame;
+    myFrame.size = self.superview.frame.size;
+    self.frame = myFrame;
+    
     if ([self isScrollNecessary]) {
         [self recenterContent];
         
