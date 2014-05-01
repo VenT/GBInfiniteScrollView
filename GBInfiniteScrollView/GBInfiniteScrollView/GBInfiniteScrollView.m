@@ -461,6 +461,7 @@ static CGFloat const GBAutoScrollDefaultInterval = 3.0f;
     /* Resize current view to fit parent view */
     CGRect myFrame = self.frame;
     myFrame.size = self.superview.frame.size;
+    myFrame.origin.y = 0;
     self.frame = myFrame;
     
     /* Correct frame size to disable vertical bounce */
