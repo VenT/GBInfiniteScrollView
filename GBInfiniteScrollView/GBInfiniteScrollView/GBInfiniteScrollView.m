@@ -463,6 +463,9 @@ static CGFloat const GBAutoScrollDefaultInterval = 3.0f;
     myFrame.size = self.superview.frame.size;
     self.frame = myFrame;
     
+    /* Correct frame size to disable vertical bounce */
+    self.contentSize = CGSizeMake(self.contentSize.width, self.frame.size.height);
+    
     if ([self isScrollNecessary]) {
         [self recenterContent];
         
