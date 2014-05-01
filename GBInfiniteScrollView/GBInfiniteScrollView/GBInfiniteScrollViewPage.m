@@ -63,6 +63,29 @@ CGFloat const GBInfiniteScrollViewPageMargin = 16.0f;
     }
 }
 
+#pragma mark - Layout
+- (void)layoutSubviews
+{
+    [super layoutSubviews];
+    
+    CGSize neededSize = self.superview.frame.size;
+    
+    [self setSize:neededSize ofViewFrame:self];
+    [self setSize:neededSize ofViewFrame:self.contentView];
+    
+    for (UIView *subview in self.contentView.subviews)
+        [self setSize:neededSize ofViewFrame:subview];
+}
+
+- (void)setSize:(CGSize)size ofViewFrame:(UIView *)view
+{
+    CGRect frame = view.frame;
+    frame.size = size;
+    frame.origin.y = 0;
+    
+    view.frame = frame;
+}
+
 #pragma mark - Setup
 
 - (void)setup
