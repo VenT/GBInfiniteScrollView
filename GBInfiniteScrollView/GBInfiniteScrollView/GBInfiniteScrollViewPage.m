@@ -14,7 +14,7 @@ CGFloat const GBInfiniteScrollViewPageMargin = 16.0f;
 
 @property (nonatomic) GBInfiniteScrollViewPageStyle style;
 
-@property (nonatomic, strong, readwrite) UIView *contentView;
+@property (nonatomic, strong, readwrite) UIScrollView *contentView;
 
 @property (nonatomic, strong, readwrite) UILabel *textLabel;
 
@@ -102,11 +102,12 @@ CGFloat const GBInfiniteScrollViewPageMargin = 16.0f;
 - (void)setupContentView
 {
     if (!_contentView) {
-        _contentView = [[UIView alloc] initWithFrame:self.bounds];
+        _contentView = [[UIScrollView alloc] initWithFrame:self.bounds];
         _contentView.backgroundColor = [UIColor clearColor];
         _contentView.clipsToBounds = YES;
         _contentView.userInteractionEnabled = YES;
         _contentView.exclusiveTouch = YES;
+        _contentView.delegate = self;
         
         [self addSubview:_contentView];
     }
@@ -145,10 +146,73 @@ CGFloat const GBInfiniteScrollViewPageMargin = 16.0f;
     }
 }
 
+- (void)setupDefaultZoomValues
+{
+    _contentView.minimumZoomScale = 1.0f;
+    _contentView.maximumZoomScale = 2.0f;
+}
+
+#pragma mark - Zoom
+
+- (UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView
+{
+    return [_contentView.subviews firstObject];
+}
+
+- (void)scrollViewDidZoom:(UIScrollView *)scrollView
+{
+    [self setScrollEnabledParentScroll:NO];
+    [self resetZoomIfNeeded];
+}
+
+- (void)resetZoomIfNeeded
+{
+    if (_contentView.zoomScale == 1.0f)
+    {
+        _contentView.contentSize = _contentView.frame.size;
+        [self setScrollEnabledParentScroll:YES];
+    }
+}
+
+- (void)setScrollEnabledParentScroll:(BOOL)scrollEnabled
+{
+    UIScrollView *parentScroll = (UIScrollView *)self.superview;
+    parentScroll.scrollEnabled = scrollEnabled;
+}
+
+- (void)setZoomEnabled:(BOOL)zoomEnabled
+{
+    _zoomEnabled = zoomEnabled;
+    
+    if (zoomEnabled)
+        [self setupDefaultZoomValues];
+    else
+    {
+        _contentView.minimumZoomScale = 1.0f;
+        _contentView.maximumZoomScale = 1.0f;
+    }
+}
+
+- (void)setMinimumZoomScale:(CGFloat)minimumZoomScale andMaximumZoomScale:(CGFloat)maximumZoomScale
+{
+    if (maximumZoomScale < minimumZoomScale || minimumZoomScale < 1.0f)
+    {
+        self.zoomEnabled = NO;
+        
+        return;
+    }
+    
+    _contentView.minimumZoomScale = minimumZoomScale;
+    _contentView.maximumZoomScale = maximumZoomScale;
+}
+
 #pragma mark - Reuse
 
 - (void)prepareForReuse
 {
+    self.contentView.zoomScale = 1.0f;
+    [self resetZoomIfNeeded];
+    
     for (UIView *view in self.contentView.subviews) {
         [view removeFromSuperview];
     }
