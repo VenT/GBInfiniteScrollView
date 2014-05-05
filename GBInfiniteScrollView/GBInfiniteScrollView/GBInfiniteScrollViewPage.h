@@ -22,7 +22,7 @@ typedef NS_ENUM(NSInteger, GBInfiniteScrollViewPageStyle) {
 
 - (id)initWithFrame:(CGRect)frame style:(GBInfiniteScrollViewPageStyle)style;
 
-@property (nonatomic, strong, readonly) UIView *contentView;
+@property (nonatomic, strong, readonly) UIScrollView *contentView;
 
 @property (nonatomic, strong, readonly) UILabel *textLabel;
 
