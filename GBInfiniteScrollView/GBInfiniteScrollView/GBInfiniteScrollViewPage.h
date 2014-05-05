@@ -16,7 +16,7 @@ typedef NS_ENUM(NSInteger, GBInfiniteScrollViewPageStyle) {
     GBInfiniteScrollViewPageStyleImage
 };
 
-@interface GBInfiniteScrollViewPage : UIView
+@interface GBInfiniteScrollViewPage : UIView <UIScrollViewDelegate>
 
 - (id)initWithStyle:(GBInfiniteScrollViewPageStyle)style;
 
@@ -30,6 +30,10 @@ typedef NS_ENUM(NSInteger, GBInfiniteScrollViewPageStyle) {
 
 @property (nonatomic, strong) UIView *customView;
 
+@property (nonatomic) BOOL zoomEnabled;
+
 - (void)prepareForReuse;
+
+- (void)setMinimumZoomScale:(CGFloat)minimumZoomScale andMaximumZoomScale:(CGFloat)maximumZoomScale;
 
 @end
