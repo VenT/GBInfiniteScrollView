@@ -464,6 +464,9 @@ static CGFloat const GBAutoScrollDefaultInterval = 3.0f;
     myFrame.origin.y = 0;
     self.frame = myFrame;
     
+    for (UIView *current in self.visiblePages)
+        [current setNeedsLayout];
+    
     /* Correct frame size to disable vertical bounce */
     self.contentSize = CGSizeMake(self.contentSize.width, self.frame.size.height);
     
