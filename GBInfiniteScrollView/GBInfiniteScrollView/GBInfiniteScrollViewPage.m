@@ -24,6 +24,16 @@ CGFloat const GBInfiniteScrollViewPageMargin = 16.0f;
 
 @implementation GBInfiniteScrollViewPage
 
+- (CGFloat)zoomScale
+{
+    return self.contentView.zoomScale;
+}
+
+- (void)setZoomScale:(CGFloat)zoomScale
+{
+    self.contentView.zoomScale = zoomScale;
+}
+
 #pragma mark - Setup
 
 - (id)initWithStyle:(GBInfiniteScrollViewPageStyle)style
