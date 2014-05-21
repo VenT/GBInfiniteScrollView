@@ -85,6 +85,8 @@ CGFloat const GBInfiniteScrollViewPageMargin = 16.0f;
     
     for (UIView *subview in self.contentView.subviews)
         [self setSize:neededSize ofViewFrame:subview];
+        
+    self.contentView.contentSize = neededSize;
 }
 
 - (void)setSize:(CGSize)size ofViewFrame:(UIView *)view
