@@ -32,6 +32,8 @@ typedef NS_ENUM(NSInteger, GBInfiniteScrollViewPageStyle) {
 
 @property (nonatomic) BOOL zoomEnabled;
 
+@property (nonatomic) CGFloat zoomScale;
+
 - (void)prepareForReuse;
 
 - (void)setMinimumZoomScale:(CGFloat)minimumZoomScale andMaximumZoomScale:(CGFloat)maximumZoomScale;
